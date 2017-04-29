@@ -244,6 +244,12 @@ int main(int argc, char* argv[])
 			sprintf(output_path, "tags-%u.tex", i);
 		}
 	}
+	char* dot = strrchr(output_path, '.');
+	if(!dot)
+	{
+		dot = &output_path[strlen(output_path)];
+		strcat(output_path, ".tex");
+	}
 	output_file = fopen(output_path, "w");
 	if(!output_file)
 	{
@@ -252,7 +258,7 @@ int main(int argc, char* argv[])
 	}
 	
 	// write beginning chunk to file
-	fputs("\\documentclass[17pt, oneside]{memoir}\n\\usepackage[utf8]{fontenc}\n\\usepackage[newdimens]{labels}\n\\usepackage[usenames, dvipsnames]{color}\n\\LabelCols = 2\n\\LabelRows = 5\n\\InterLabelColumn = 0mm\n\\InterLabelRow = 0mm\n\\LeftLabelBorder = 6mm\n\\RightLabelBorder = 6mm\n\\TopLabelBorder = 7mm\n\\BottomLabelBorder = 6mm\n\\LabelGridtrue\n\\begin{document}\n", output_file);
+	fputs("\\documentclass[17pt, oneside]{memoir}\n\\usepackage[utf8]{inputenc}\n\\usepackage[newdimens]{labels}\n\\usepackage[usenames, dvipsnames]{color}\n\\LabelCols = 2\n\\LabelRows = 5\n\\InterLabelColumn = 0mm\n\\InterLabelRow = 0mm\n\\LeftLabelBorder = 6mm\n\\RightLabelBorder = 6mm\n\\TopLabelBorder = 7mm\n\\BottomLabelBorder = 6mm\n\\LabelGridtrue\n\\begin{document}\n", output_file);
 	
 	// write variable data to file
 	for(size_t i = 0; i < person_ct; i++)
@@ -267,32 +273,28 @@ int main(int argc, char* argv[])
 	// make pdf
 	if(output_pdf)
 	{
+		// just compile using pdflatex in its least irritating mode
 		char command[4095] = "pdflatex -interaction=batchmode ";
 		strcat(command, output_path);
 		system(command);
 		
 		// clean up
-		char temp[4095];
-		strcpy(temp, output_path);
-		char* dot = strrchr(temp, '.');
-		if(dot) strcpy(dot, ".aux");
-		else strcat(temp, ".aux");
-		if(remove(temp))
-			printf("Warning: could not clean up fully (%s).\n", temp);
-		if(dot) strcpy(dot, ".log");
-		else strcat(temp, ".log");
-		if(remove(temp))
-			printf("Warning: could not clean up fully (%s).\n", temp);
+		strcpy(dot, ".aux");
+		if(remove(output_path))
+			printf("Warning: could not clean up fully (%s).\n", output_path);
+		strcpy(dot, ".log");
+		if(remove(output_path))
+			printf("Warning: could not clean up fully (%s).\n", output_path);
 		if(!output_latex)
 		{
-			if(dot) strcpy(dot, ".tex");
-			else strcat(temp, ".tex");
-			if(remove(temp))
-				printf("Warning: could not clean up fully (%s).\n", temp);
+			strcpy(dot, ".tex");
+			if(remove(output_path))
+				printf("Warning: could not clean up fully (%s).\n", output_path);
 		}
 	}
 	
 	// display success
+	*dot = '\0';
 	printf("Output written to %s.\n", output_path);
 	return 0;
 }
