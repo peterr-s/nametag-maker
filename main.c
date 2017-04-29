@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
 				}
 				if(!color_ok)
 				{
-					printf("Note: color %s is not valid; skipping (%s).", t_color, t_name);
+					printf("Note: color %s is not valid; skipping (%s).\n", t_color, t_name);
 					continue;
 				}
 			}
