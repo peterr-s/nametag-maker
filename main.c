@@ -73,9 +73,12 @@ int main(int argc, char* argv[])
 		// get and validate line
 		char t_name[4095],
 			t_color[4095];
-		if(fscanf(class_file, " %s , %s \n", t_name, t_color) != 2)
+		if(fscanf(class_file, " %4094[^,] , %4094[^\n\r]", t_name, t_color) != 2)
 		{
-			printf("Warning: unable to parse line; skipping.\n");
+			if(feof(class_file))
+				break;
+			
+			printf("Warning: unable to parse class; skipping.\n");
 			if(ferror(class_file) || errno == EILSEQ)
 			{
 				printf("Error: Unable to read class file (%s).\n", class_path);
@@ -112,7 +115,7 @@ int main(int argc, char* argv[])
 					color_used = i;
 			if(class_exists)
 			{
-				printf("Note: class %s already exists; skipping.\n", t_color);
+				printf("Note: class %s already exists; skipping.\n", t_name);
 				continue;
 			}
 			else if(color_used)
@@ -154,9 +157,12 @@ int main(int argc, char* argv[])
 		char t_name_first[4095],
 			t_name_last[4095],
 			t_class[4095];
-		if(fscanf(name_file, " %s , %s , %s \n", t_name_first, t_name_last, t_class) != 3)
+		if(fscanf(name_file, " %4094[^,] , %4094[^,] , %4094[^\n\r]", t_name_first, t_name_last, t_class) != 3)
 		{
-			printf("Warning: unable to parse line; skipping.\n");
+			if(feof(name_file))
+				break;
+			
+			printf("Warning: unable to parse person; skipping.\n");
 			if(ferror(name_file) || errno == EILSEQ)
 			{
 				printf("Error: Unable to read name file (%s).\n", name_path);
@@ -182,7 +188,10 @@ int main(int argc, char* argv[])
 			
 			// add new element
 			strcpy(person_list[person_ct].name_first, t_name_first);
+			strcpy(person_list[person_ct].name_last, t_name_last);
 			person_list[person_ct].cl = p_class;
+			
+			person_ct++;
 		}
 	}
 	fclose(name_file);
@@ -202,7 +211,7 @@ int main(int argc, char* argv[])
 	
 	// write variable data to file
 	for(size_t i = 0; i < person_ct; i++)
-		fprintf(output_file, "\\addresslabel[\\fboxsep = 5mm]\n{\n\\begin{center}\n{\\LARGE %s} \\\\ [1ex]\n{\\LARGE %s} \\\\ [1ex]\n{\\LARGE %s} \\\\ [1ex]\n\\colorbox{BurntOrange}{\\hspace{3in}}\n\\end{center}\n}", person_list[i].cl->color, person_list[i].name_first, person_list[i].name_last);
+		fprintf(output_file, "\n\\addresslabel[\\fboxsep = 5mm]\n{\n\\begin{center}\n{\\LARGE %s} \\\\ [1ex]\n{\\LARGE %s} \\\\ [1ex]\n{\\LARGE %s} \\\\ [1ex]\n\\colorbox{%s}{\\hspace{3in}}\n\\end{center}\n}\n", person_list[i].cl->name, person_list[i].name_first, person_list[i].name_last, person_list[i].cl->color);
 	
 	// write end chunk to file
 	fputs("\\end{document}", output_file);

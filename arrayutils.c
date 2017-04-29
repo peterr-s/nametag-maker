@@ -37,6 +37,10 @@ class** merge_class(class** a1, class** a2, size_t l1, size_t l2)
 
 class* find_class(class** array, size_t len, char* query)
 {
+	// if there are no elements (possible because of rounding)
+	if(len == 0)
+		return NULL;
+	
 	// if there's just one element it's the last possible option
 	if(len == 1)
 		return strcmp(array[0]->name, query) ? array[0] : NULL;
@@ -44,14 +48,14 @@ class* find_class(class** array, size_t len, char* query)
 	size_t index = len / 2;
 	int comp = strcmp(array[index]->name, query);
 	
-	if(comp > 0)
+	if(comp < 0)
 		return find_class(array, index, query);
-	else if(comp < 0)
+	else if(comp > 0)
 		return find_class(&array[index], len - index, query);
 	else
 	{
 		// backtrack to first occurrence
-		while(!strcmp(array[index]->name, array[index - 1]->name))
+		while(!strcmp(query, array[index - 1]->name))
 			index--;
 		return array[index];
 	}
