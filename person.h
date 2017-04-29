@@ -6,7 +6,8 @@
 typedef struct person person;
 struct person
 {
-	char name[4095];
+	char name_first[4095],
+		name_last[4095];
 	struct class* cl;
 };
 

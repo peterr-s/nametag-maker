@@ -3,9 +3,14 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include "class.h"
 
-char** merge_sort(char** to_sort, size_t ct);
-char** merge(char** a1, char** a2, size_t l1, size_t l2);
-char** find(char** array, size_t len, char* to_find, bool sorted);
+#define SORT_FORWARD 1
+#define SORT_NONE 0
+#define SORT_BACKWARD -1
+
+class** merge_sort_class(class** to_sort, size_t ct);
+class** merge_class(class** a1, class** a2, size_t l1, size_t l2);
+class* find_class(class** array, size_t len, char* query);
 
 #endif
