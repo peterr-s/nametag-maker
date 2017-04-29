@@ -252,11 +252,11 @@ int main(int argc, char* argv[])
 	}
 	
 	// write beginning chunk to file
-	fputs("\\documentclass[17pt, oneside]{memoir}\n\\usepackage[newdimens]{labels}\n\\usepackage[usenames, dvipsnames]{color}\n\\LabelCols = 2\n\\LabelRows = 5\n\\InterLabelColumn = 0mm\n\\InterLabelRow = 0mm\n\\LeftLabelBorder = 6mm\n\\RightLabelBorder = 6mm\n\\TopLabelBorder = 7mm\n\\BottomLabelBorder = 6mm\n\\LabelGridtrue\n\\begin{document}\n", output_file);
+	fputs("\\documentclass[17pt, oneside]{memoir}\n\\usepackage[utf8]{fontenc}\n\\usepackage[newdimens]{labels}\n\\usepackage[usenames, dvipsnames]{color}\n\\LabelCols = 2\n\\LabelRows = 5\n\\InterLabelColumn = 0mm\n\\InterLabelRow = 0mm\n\\LeftLabelBorder = 6mm\n\\RightLabelBorder = 6mm\n\\TopLabelBorder = 7mm\n\\BottomLabelBorder = 6mm\n\\LabelGridtrue\n\\begin{document}\n", output_file);
 	
 	// write variable data to file
 	for(size_t i = 0; i < person_ct; i++)
-		fprintf(output_file, "\\addresslabel[\\fboxsep = 5mm]\n{\n\\begin{center}\n{\\LARGE %s} \\\\ [1ex]\n{\\LARGE %s} \\\\ [1ex]\n{\\LARGE %s} \\\\ [1ex]\n\\colorbox{%s}{\\hspace{3in}}\n\\end{center}\n}\n", person_list[i].cl->name, person_list[i].name_first, person_list[i].name_last, person_list[i].cl->color);
+		fprintf(output_file, "\\addresslabel[\\fboxsep = 5mm]\n{\n\\begin{center}\n{\\LARGE %s} \\\\ [1ex]\n{\\Large %s} \\\\ [1ex]\n{\\LARGE %s} \\\\ [1ex]\n\\colorbox{%s}{\\hspace{3in}}\n\\end{center}\n}\n", person_list[i].cl->name, person_list[i].name_first, person_list[i].name_last, person_list[i].cl->color);
 	
 	// write end chunk to file
 	fputs("\\end{document}", output_file);
