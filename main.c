@@ -258,7 +258,7 @@ int main(int argc, char* argv[])
 	}
 	
 	// write beginning chunk to file
-	fputs("\\documentclass[17pt, oneside]{memoir}\n\\usepackage[utf8]{inputenc}\n\\usepackage[newdimens]{labels}\n\\usepackage[usenames, dvipsnames]{color}\n\\LabelCols = 2\n\\LabelRows = 5\n\\InterLabelColumn = 0mm\n\\InterLabelRow = 0mm\n\\LeftLabelBorder = 6mm\n\\RightLabelBorder = 6mm\n\\TopLabelBorder = 7mm\n\\BottomLabelBorder = 6mm\n\\LabelGridtrue\n\\begin{document}\n", output_file);
+	fputs("\\documentclass[17pt, oneside]{memoir}\n\\usepackage[utf8]{inputenc}\n\\usepackage[newdimens]{labels}\n\\usepackage[usenames, dvipsnames]{color}\n\\LabelCols = 2\n\\LabelRows = 5\n\\InterLabelColumn = 0mm\n\\InterLabelRow = 0mm\n\\LeftLabelBorder = 6mm\n\\RightLabelBorder = 6mm\n\\TopLabelBorder = 13mm\n\\BottomLabelBorder = 13mm\n\\LabelGridtrue\n\\begin{document}\n", output_file);
 	
 	// write variable data to file
 	for(size_t i = 0; i < person_ct; i++)
